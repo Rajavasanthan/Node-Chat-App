@@ -9,6 +9,7 @@
   "author": "Rajavasanthan",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.5.7",
     "express": "^4.16.2"
   }
 }
