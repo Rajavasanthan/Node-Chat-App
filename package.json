@@ -1,0 +1,11 @@
+{
+  "name": "node_chat_app",
+  "version": "1.0.0",
+  "description": "Chat Application with Node JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rajavasanthan",
+  "license": "ISC"
+}
