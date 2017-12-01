@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const cookiParser = require('cookie-parser');
 const passport = require('passport');
 const FacebookStatergy = require('passport-facebook').Strategy;
-
+const secret = require('./secret');
 //Models
 var { User } = require('./models/user');
 
@@ -40,8 +40,8 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(new FacebookStatergy({
-    clientID: '369458576832405',
-    clientSecret: 'ec7a902660045d79e3606088dfe8389d',
+    clientID: secret.clientId,
+    clientSecret: secret.appSecret,
     profileFields: ['email', 'displayName', 'photos'],
     callbackURL: 'http://localhost:3000/auth/facebook/callback',
     passReqToCallback: true
