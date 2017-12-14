@@ -1,30 +1,48 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
-    userName : {
-        type : String,
-        unique : true
+    
+    fullName: {
+        type: String
     },
-    fullName : {
-        type : String,
-        unique : true,
-        default : ''
+    email: {
+        type: String
     },
-    email : {
-        type : String,
-        unique : true
+    status : {
+        type : String
     },
-    userImage : {
-        type : String,
-        default : 'default.png'
+    userImage: {
+        type: String,
+        default: 'default.png'
     },
-    facebook : {
-        type : String,
-        default : ''
+    facebook: {
+        type: String,
+        default: ''
     },
-    fbTokens : Array
+    fbTokens: Array,
+    sentRequest : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'user'
+        }
+    ],
+    friendRequest : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'user'
+        }
+    ],
+    friends : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'user'
+        }
+    ],
+    socketId : {
+        type : String
+    }
 });
 
-var User = mongoose.model('user',UserSchema);
+var User = mongoose.model('user', UserSchema);
 
 module.exports = { User };

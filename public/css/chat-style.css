@@ -1,6 +1,5 @@
 #register-wrapper{
     background-image: url('../images/blur-bg-blurred.jpg');
-    background: cover;
     background-size: cover;
     background-repeat: no-repeat;
     height: calc(100vh);
@@ -18,4 +17,13 @@ label.label-floatlabel {
     font-weight: bold;
     color: #46b8da;
     font-size: 11px;
+}
+.modal-content{
+    background-color: #e6eaea;
+}
+.modal-body{
+    color: #161f28;
+}
+.modal-footer{
+    border-top: none;
 }
