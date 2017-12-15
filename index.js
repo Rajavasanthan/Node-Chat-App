@@ -16,6 +16,7 @@ const sharedSession = require('express-socket.io-session');
 
 //Models
 var { User } = require('./models/user');
+var { Message } = require('./models/message');
 
 mongoose.Promise = global.Promise;
 // mongoose.connect('mongodb://localhost/mydb');
@@ -43,7 +44,7 @@ io.on('connection', (socket) => {
         .populate('friendRequest')
         .then((user) => {
 
-            // console.log(socket.id);
+            // console.log(user.friends);
             io.to(socket.id).emit('userList', user.friends);
             io.to(socket.id).emit('newFriendRequest', user.friendRequest);
             console.log("User Logged In");
@@ -58,9 +59,59 @@ io.on('connection', (socket) => {
         });
 
 
-    // socket.on('getFriendsList',() => {
-    //     console.log('Server - gerFriendList');
-    // });
+    socket.on('newMessage', (message,callback) => {
+        var newMessage = new Message({
+            participents: [
+                socket.handshake.session.passport.user,
+                message.to
+            ],
+            message: message.message,
+            sentBy: socket.handshake.session.passport.user,
+            recivedBy: message.to
+        });
+
+        newMessage.save()
+            .then((savedMessage) => {
+                return Message.populate(savedMessage,
+                    [{
+                        path: 'sentBy',
+                        select: {
+                            _id: 1,
+                            userImage: 1
+                        }
+                    },
+                    {
+                        path: 'recivedBy',
+                        select: {
+                            _id: 1,
+                            userImage: 1
+                        }
+                    }]
+                ).then((populatedMessage) => {
+                    return populatedMessage
+                })
+            })
+            .then((populatedMessage) => {
+                return User.findById(message.to)
+                    .populate('currentFriend', { _id: 1,socketId : 1 })
+                    .then((toUser) => {
+                        return { toUser, populatedMessage };
+                    })
+            })
+            .then((toUserWithPopulatedMessage) => {
+                // console.log(toUserWithPopulatedMessage);
+                if (toUserWithPopulatedMessage.toUser.currentFriend._id == socket.handshake.session.passport.user) {
+                    // console.log('Send Message');
+                    io.to(toUserWithPopulatedMessage.toUser.socketId).emit('newMessageRecived', toUserWithPopulatedMessage.populatedMessage);
+                } else {
+                    io.to(toUserWithPopulatedMessage.toUser.socketId).emit('updateUserList', toUserWithPopulatedMessage.populatedMessage);
+                }
+                callback(toUserWithPopulatedMessage.populatedMessage);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
 
     app.get('/add_friend/:toId', isLoggedIn, (req, res) => {
         User.findById(req.user._id)
@@ -187,6 +238,30 @@ io.on('connection', (socket) => {
                 console.log(err);
             });
     });
+
+
+
+    app.get('/get_msg_by_friendid/:friendId', (req, res) => {
+        Message.find({
+            participents: {
+                $all: [req.user._id, req.params.friendId]
+            }
+        })
+            .populate('sentBy', { _id: 1, userImage: 1 })
+            .populate('recivedBy', { _id: 1, userImage: 1 })
+            .exec()
+            .then((message) => {
+                return User.findByIdAndUpdate(req.user._id, { $set: { currentFriend: req.params.friendId } }).then((currentUser) => {
+                    return { message }
+                });
+            })
+            .then((data) => {
+                res.json(data.message);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    })
 
     socket.on('disconnect', function () {
         User.findByIdAndUpdate(socket.handshake.session.passport.user, { $set: { status: 'Offline', socketId: null } })

@@ -40,6 +40,10 @@ const UserSchema = mongoose.Schema({
     ],
     socketId : {
         type : String
+    },
+    currentFriend : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'user'
     }
 });
 

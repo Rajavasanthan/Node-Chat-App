@@ -1,0 +1,53 @@
+<div id="sidepanel">
+            <div id="profile">
+                <div class="wrap">
+                    <img id="profile-img" src="<%= user.userImage %>" class="online" alt="" />
+                    <p>
+                        <%= user.fullName %>
+                    </p>
+                    <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+                    <div id="status-options">
+                        <ul>
+                            <li id="status-online" class="active"><span class="status-circle"></span>
+                                <p>Online</p>
+                            </li>
+                            <li id="status-away"><span class="status-circle"></span>
+                                <p>Away</p>
+                            </li>
+                            <li id="status-busy"><span class="status-circle"></span>
+                                <p>Busy</p>
+                            </li>
+                            <li id="status-offline"><span class="status-circle"></span>
+                                <p>Offline</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="expanded">
+                        <a href="/logout" class="logout" style="color:white">Logout</a>
+
+                    </div>
+                </div>
+            </div>
+            <div id="search">
+                <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+                <input type="text" placeholder="Search contacts..." id="search-filter" />
+            </div>
+            <div id="contacts">
+                <ul id="friends-search">
+
+
+                </ul>
+                <ul id="friend-request">
+
+
+                </ul>
+                <ul id="friends-list">
+
+
+                </ul>
+            </div>
+            <div id="bottom-bar">
+                <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
+                <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+            </div>
+        </div>

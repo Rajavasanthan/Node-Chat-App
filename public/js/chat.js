@@ -1,5 +1,9 @@
+var socket = io();
 $(document).ready(function () {
-    var socket = io();
+
+    $("#welcome-screen").css('display', 'block');
+    $("#chat-screen").css('display', 'none');
+    $("#chat-screen-loading").css('display', 'none');
 
     socket.on('connect', function () {
         console.log(socket);
@@ -9,7 +13,16 @@ $(document).ready(function () {
         var friendListGenerator = "";
         friendList.forEach(function (friend) {
             var status = friend.status;
-            friendListGenerator += "<li class='contact' id='user-" + friend._id + "'><div class='wrap'><span class='contact-status " + status + "'></span><img src='" + friend.userImage + "' alt='' /><div class='meta'><p class='name'>" + friend.fullName + "</p><p class='preview'>Lets Chat</p></div></div></li>";
+            friendListGenerator += `<li class='contact' id='user-${friend._id}' onclick='getMessages("${friend._id}","${friend.fullName}","${friend.userImage}")'>
+                <div class='wrap'>
+                    <span class='contact-status ${status}'></span>
+                    <img src='${friend.userImage}' alt='' />
+                    <div class='meta'>
+                        <p class='name'>${friend.fullName}</p>
+                        <p class='preview'>Lets Chat</p>
+                    </div>
+                </div>
+                </li>`;
             $("#search-" + friend._id).remove();
         }, this);
 
@@ -17,13 +30,13 @@ $(document).ready(function () {
     });
 
     socket.on('newMemberOnline', function (friend) {
-        $("#" + friend._id + " > .wrap > span").removeClass('Offline');
-        $("#" + friend._id + " > .wrap > span").addClass('Online');
+        $("#user-" + friend._id + " > .wrap > span").removeClass('Offline');
+        $("#user-" + friend._id + " > .wrap > span").addClass('Online');
     });
 
     socket.on('newMemberOffline', function (friend) {
-        $("#" + friend._id + " > .wrap > span").removeClass('Online');
-        $("#" + friend._id + " > .wrap > span").addClass('Offline');
+        $("#user-" + friend._id + " > .wrap > span").removeClass('Online');
+        $("#user-" + friend._id + " > .wrap > span").addClass('Offline');
     });
 
     socket.on('rejectFriendRequest', function (rejectId) {
@@ -34,6 +47,14 @@ $(document).ready(function () {
         if ($("#request-" + rejectId)) {
             $("#request-" + rejectId).remove();
         }
+    });
+
+    socket.on('newMessageRecived', function (message) {
+        populateMessage(message);
+    });
+
+    socket.on('updateUserList', function (message) {
+        $(`#user-${message.sentBy._id} > .wrap > .meta > .preview`).html(message.message);
     });
 
     socket.on('newFriendRequest', function (friendRequest) {
@@ -62,6 +83,10 @@ $(document).ready(function () {
         $("#friend-request").html(friendRequestListGenerator);
 
     });
+
+    socket.on('message-list', function (messageList) {
+        console.log(messageList);
+    })
 
     $("#search-filter").keyup($.debounce(500, function (e) {
         if ((e.which <= 90 && e.which >= 48) || e.which == 8 || e.which == 46) {
@@ -104,9 +129,37 @@ $(document).ready(function () {
     }));
 
 
+    $('.submit').click(function () {
+        newMessage();
+        return false;
+    });
+
+    $(window).on('keydown', function (e) {
+        if (e.which == 13) {
+            newMessage();
+            return false;
+        }
+    });
 
 });
 
+function newMessage() {
+    // message = $("#message").val();
+
+
+
+    if ($.trim(message) == '') {
+        return false;
+    }
+
+    socket.emit('newMessage', {
+        to: $("#current-friend-id").val(),
+        message: $("#message").val()
+    }, function (confirmation) {
+        populateMessage(confirmation);
+    });
+
+};
 
 function addFriend(friendId, friendName) {
     console.log(friendName);
@@ -144,7 +197,7 @@ function acceptFriend(friendId, friendName) {
     }
 }
 
-function rejectFriend(rejectId,rejectName) {
+function rejectFriend(rejectId, rejectName) {
     if (confirm('Do you want to Reject?')) {
         $.ajax({
             method: "GET",
@@ -157,4 +210,55 @@ function rejectFriend(rejectId,rejectName) {
                 console.log(err);
             });
     }
+}
+
+function displayMessage(message) {
+    if ($("#current-friend-id").val() == message.sentBy._id) {
+        var msgType = "sent";
+        var image = message.sentBy.userImage;
+    } else {
+        var msgType = "replies";
+        var image = message.sentBy.userImage;
+    }
+    $('<li class="' + msgType + '"><img src="' + image + '" alt="" /><p>' + message.message + '</p></li>').appendTo($('.messages ul'));
+    $('#message').val(null);
+    $('.contact.active .preview').html('<span>You: </span>' + message);
+    console.log($(document).height());
+    $(".messages").animate({ scrollTop: 999999 }, "fast");
+}
+
+function populateMessage(messageData) {
+    if (messageData.length == undefined) {
+        displayMessage(messageData);
+    } else {
+        messageData.forEach(function (message) {
+            displayMessage(message);
+        }, this);
+
+    }
+}
+
+function getMessages(friendId, friendFullName, friendImage) {
+    $("#chat-screen").css('display', 'none');
+    $("#friend-image").attr('src', friendImage);
+    $("#friend-name").html(friendFullName);
+    $("#current-friend-id").val(friendId);
+
+    $("#welcome-screen").css('display', 'none');
+    $("#chat-screen-loading").css('display', 'block');
+
+    $.ajax({
+        method: "GET",
+        url: "/get_msg_by_friendid/" + friendId
+    })
+        .done(function (messages) {
+            $("#chat-screen").css('display', 'block');
+            $("#chat-screen-loading").css('display', 'none');
+            $('#message-list').empty();
+            populateMessage(messages);
+            console.log(messages);
+        })
+        .fail(function (err) {
+            console.log(err);
+        });
 }

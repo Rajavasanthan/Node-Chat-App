@@ -56,57 +56,36 @@
             </div>
         </div>
         <div class="content">
-            <div class="contact-profile">
-                <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                <p>Harvey Specter</p>
-                <div class="social-media">
-                    <i class="fa fa-facebook" aria-hidden="true"></i>
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
+            <div id="welcome-screen" class="messages" style="text-align: center;min-height: 100%;max-height: 100%;">
+                <img src="images/welcome-logo.png" style="margin-top: 17%;">
+            </div>
+            <div id="chat-screen-loading" class="messages" style="text-align: center;min-height: 100%;max-height: 100%;">
+                <i class="fa fa-spinner fa-spin" aria-hidden="true" style="margin-top: 10%;"></i>
+            </div>
+            <div id="chat-screen" class="messages">
+                <div class="contact-profile">
+                    <img src="" id="friend-image" alt="" />
+                    <p id="friend-name"></p>
+                    <div class="social-media">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="messages">
-                <ul>
-                    <li class="sent">
-                        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-                        <p>How the hell am I supposed to get a jury to believe you when I am not even sure that I do?!</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>When you're backed against the wall, break the god damn thing down.</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>Excuses don't win championships.</p>
-                    </li>
-                    <li class="sent">
-                        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-                        <p>Oh yeah, did Michael Jordan tell you that?</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>No, I told him that.</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>What are your choices when someone puts a gun to your head?</p>
-                    </li>
-                    <li class="sent">
-                        <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
-                        <p>What are you talking about? You do what they say or they shoot you.</p>
-                    </li>
-                    <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
-                        <p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one
-                            of a hundred and forty six other things.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="message-input">
-                <div class="wrap">
-                    <input type="text" placeholder="Write your message..." />
-                    <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-                    <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                <div class="messages">
+                    <ul id="message-list">
+                        
+                    </ul>
+                </div>
+                <div class="message-input">
+                    <form id="chat-form">
+                        <div class="wrap">
+                            <input type="hidden" value="0" id="current-friend-id"/>
+                            <input type="text" placeholder="Write your message..." id="message" />
+                            <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+                            <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -116,7 +95,7 @@
     <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                
+
                 <div class="modal-body">
                     Send Request?
                 </div>
