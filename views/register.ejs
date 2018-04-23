@@ -13,23 +13,20 @@
                                         <img src="images/chat_app_logo.png" width="150">
                                     </div>
                                 </div>
-                                <div class="row centered-form">
-                                    <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
-                                        <a class="hvr-float" href="/auth/facebook">
-                                                    <img class="img-responsive" src="images/fb_login.PNG" />
-                                                </a>
 
-                                    </div>
-                                </div>
                                 <div class="row centered-form">
-                                    <form action="/auth/local" method="POST">
-                                        <label for="">User Name</label>
-                                    <input type="text" value="" name="username" class="form-control">
-                                    <br>
-                                    <label for="">Password</label>
-                                    <input type="password" value="" name="password" class="form-control">
-                                    <br>
-                                    <input type="submit" value="Submit" class="btn btn-primary">
+                                    <h1>Register</h1>
+                                    <form action="/register" method="POST">
+                                        <label for="">Display Name</label>
+                                        <input type="text" value="" name="fullName" class="form-control">
+                                        <br>
+                                        <label for="">Email</label>
+                                        <input type="email" value="" name="email" class="form-control">
+                                        <br>
+                                        <label for="">Password</label>
+                                        <input type="password" value="" name="password" class="form-control">
+                                        <br>
+                                        <input type="submit" value="Submit" class="btn btn-primary">
                                     </form>
                                 </div>
                             </div>

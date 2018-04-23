@@ -39,6 +39,7 @@ width: 100%;
   overflow: hidden;
   position: relative;
 }
+
 @media screen and (max-width: 735px) {
   #frame #sidepanel {
     width: 58px;
@@ -666,4 +667,34 @@ width: 100%;
 }
 #frame .content .message-input .wrap button:focus {
   outline: none;
+}
+.nav-tabs{
+  border: 0;
+}
+.nav-tabs > li.active > a{
+  background-color:  #3d5369;
+  color: white;
+  border: 1px solid #3d5369;
+}
+
+.nav-tabs > li.active > a:hover{
+  background-color:  #3d5369;
+  color: white;
+  border: 1px solid #3d5369;
+}
+.nav-tabs > li.active > a:focus{
+  background-color:  #3d5369;
+  color: white;
+  border: 1px solid #3d5369;
+}
+
+.nav-tabs > li > a{
+  background-color:  #32465a;
+  color: white;
+  border: 1px solid #3d5369;
+}
+.nav-tabs > li > a:hover{
+  background-color: #506377;
+  color: white;
+  border: 1px solid #3d5369;
 }

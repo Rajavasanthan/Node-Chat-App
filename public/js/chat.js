@@ -1,14 +1,15 @@
 var socket = io();
 $(document).ready(function () {
 
-    $("#welcome-screen").css('display', 'block');
-    $("#chat-screen").css('display', 'none');
-    $("#chat-screen-loading").css('display', 'none');
+    $("#welcome-screen").css('display', 'block'); //
+    $("#chat-screen").css('display', 'none'); //
+    $("#chat-screen-loading").css('display', 'none'); //
 
     socket.on('connect', function () {
         console.log(socket);
     });
 
+    //
     socket.on('userList', function (friendList) {
         var friendListGenerator = "";
         friendList.forEach(function (friend) {
@@ -29,11 +30,13 @@ $(document).ready(function () {
         $("#friends-list").html(friendListGenerator);
     });
 
+    //
     socket.on('newMemberOnline', function (friend) {
         $("#user-" + friend._id + " > .wrap > span").removeClass('Offline');
         $("#user-" + friend._id + " > .wrap > span").addClass('Online');
     });
 
+    //
     socket.on('newMemberOffline', function (friend) {
         $("#user-" + friend._id + " > .wrap > span").removeClass('Online');
         $("#user-" + friend._id + " > .wrap > span").addClass('Offline');
@@ -57,6 +60,7 @@ $(document).ready(function () {
         $(`#user-${message.sentBy._id} > .wrap > .meta > .preview`).html(message.message);
     });
 
+    //
     socket.on('newFriendRequest', function (friendRequest) {
         console.log(friendRequest);
         var friendRequestListGenerator = "";
@@ -86,6 +90,24 @@ $(document).ready(function () {
 
     socket.on('message-list', function (messageList) {
         console.log(messageList);
+    })
+    
+    socket.on('userJoinedRoomUpdateUserList', function (userList) {
+        console.log(userList);
+    })
+    socket.on('userJoinedMessageForRoomMembers', function (userJoinedMessage) {
+        console.log(userJoinedMessage);
+    })
+    
+    socket.on('joinSuccess', function (userJoinedMessage) {
+        console.log(userJoinedMessage);
+    })
+    
+    socket.on('userLeftMessageForRoomMembers', function (userLeftMessage) {
+        console.log(userLeftMessage);
+    })
+    socket.on('userLeftRoomUpdateUserList', function (userList) {
+        console.log(userList);
     })
 
     $("#search-filter").keyup($.debounce(500, function (e) {
@@ -128,12 +150,13 @@ $(document).ready(function () {
 
     }));
 
-
+    //
     $('.submit').click(function () {
         newMessage();
         return false;
     });
 
+    //
     $(window).on('keydown', function (e) {
         if (e.which == 13) {
             newMessage();
@@ -143,15 +166,11 @@ $(document).ready(function () {
 
 });
 
+//
 function newMessage() {
-    // message = $("#message").val();
-
-
-
     if ($.trim(message) == '') {
         return false;
     }
-
     socket.emit('newMessage', {
         to: $("#current-friend-id").val(),
         message: $("#message").val()
@@ -212,6 +231,7 @@ function rejectFriend(rejectId, rejectName) {
     }
 }
 
+//
 function displayMessage(message) {
     if ($("#current-friend-id").val() == message.sentBy._id) {
         var msgType = "sent";
@@ -227,6 +247,7 @@ function displayMessage(message) {
     $(".messages").animate({ scrollTop: 999999 }, "fast");
 }
 
+//
 function populateMessage(messageData) {
     if (messageData.length == undefined) {
         displayMessage(messageData);
@@ -238,6 +259,7 @@ function populateMessage(messageData) {
     }
 }
 
+//
 function getMessages(friendId, friendFullName, friendImage) {
     $("#chat-screen").css('display', 'none');
     $("#friend-image").attr('src', friendImage);
@@ -261,4 +283,20 @@ function getMessages(friendId, friendFullName, friendImage) {
         .fail(function (err) {
             console.log(err);
         });
+}
+
+function joinRoom(roomId) {
+    socket.emit('joinRoom',{
+        roomName : roomId
+    });
+    // $.ajax({
+    //     method: "GET",
+    //     url: "/joinroom/" + roomId
+    // })
+    //     .done(function (room) {
+    //         alert(room.message);
+    //     })
+    //     .fail(function (err) {
+    //         console.log(err);
+    //     });
 }

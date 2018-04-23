@@ -1,0 +1,57 @@
+[
+    {
+        "email" : "vasanth@gmail.com",
+        "password" : "123",
+        "fullName" : "Vasanth",
+        "userImage" : "https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png",
+        "status" : "Offline",
+        "facebook" : "",
+        "sentRequest" : [],
+        "friendRequest" : [],
+        "friends" : []
+    },
+    {
+        "email" : "muthu@gmail.com",
+        "password" : "123",
+        "fullName" : "Muthu Kumar",
+        "userImage" : "https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png",
+        "status" : "Offline",
+        "facebook" : "",
+        "sentRequest" : [],
+        "friendRequest" : [],
+        "friends" : []
+    },
+    {
+        "email" : "mohan@gmail.com",
+        "password" : "123",
+        "fullName" : "Mohan",
+        "userImage" : "https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png",
+        "status" : "Offline",
+        "facebook" : "",
+        "sentRequest" : [],
+        "friendRequest" : [],
+        "friends" : []
+    },
+    {
+        "email" : "sudhakar@gmail.com",
+        "password" : "123",
+        "fullName" : "Mohan",
+        "userImage" : "https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png",
+        "status" : "Offline",
+        "facebook" : "",
+        "sentRequest" : [],
+        "friendRequest" : [],
+        "friends" : []
+    },
+    {
+        "email" : "ram@gmail.com",
+        "password" : "123",
+        "fullName" : "Ram Kumar",
+        "userImage" : "https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png",
+        "status" : "Offline",
+        "facebook" : "",
+        "sentRequest" : [],
+        "friendRequest" : [],
+        "friends" : []
+    }
+]

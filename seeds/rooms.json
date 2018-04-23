@@ -1,0 +1,17 @@
+[
+    {
+        "roomName" : "world",
+        "roomDisplayName" : "World",
+        "users" : []
+    },
+    {
+        "roomName" : "india",
+        "roomDisplayName" : "India",
+        "users" : []
+    },
+    {
+        "roomName" : "united-states",
+        "roomDisplayName" : "United States",
+        "users" : []
+    }
+]

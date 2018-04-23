@@ -1,49 +1,64 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
-    
+
     fullName: {
         type: String
     },
     email: {
+        type: String,
+        required: true,
+        unique: [true, 'Email already exist'],
+    },
+    status: {
         type: String
     },
-    status : {
-        type : String
+    password: {
+        type: String,
     },
     userImage: {
         type: String,
-        default: 'default.png'
+        default: 'https://www.timeshighereducation.com/sites/default/files/byline_photos/default-avatar.png'
     },
     facebook: {
         type: String,
         default: ''
     },
     fbTokens: Array,
-    sentRequest : [
+    sentRequest: [
         {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : 'user'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user'
         }
     ],
-    friendRequest : [
+    friendRequest: [
         {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : 'user'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user'
         }
     ],
-    friends : [
+    friends: [
         {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : 'user'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user'
         }
     ],
-    socketId : {
-        type : String
+    socketId: {
+        type: String
     },
-    currentFriend : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'user'
+    currentFriend: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        default: null
+    },
+    room: {
+        name: {
+            type: String
+        },
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'room'
+        }
     }
 });
 

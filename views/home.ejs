@@ -32,24 +32,45 @@
                     </div>
                 </div>
             </div>
+            <button onclick="joinRoom('world')">World</button>
+            <button onclick="joinRoom('india')">India</button>
             <div id="search">
                 <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
                 <input type="text" placeholder="Search contacts..." id="search-filter" />
             </div>
-            <div id="contacts">
-                <ul id="friends-search">
+
+            <ul class="nav nav-tabs">
+                <li class="active" style="width: 50%;text-align: center;">
+                    <a data-toggle="tab" style="border-radius: 0;" href="#home">Contacts</a>
+                </li>
+                <li style="width: 50%;text-align: center;">
+                    <a data-toggle="tab" style="border-radius: 0;" href="#menu1">Peoples</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <div id="contacts">
+                        <ul id="friends-search">
 
 
-                </ul>
-                <ul id="friend-request">
+                        </ul>
+                        <ul id="friend-request">
 
 
-                </ul>
-                <ul id="friends-list">
+                        </ul>
+                        <ul id="friends-list">
 
 
-                </ul>
+                        </ul>
+                    </div>
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <h3>Menu 1</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
             </div>
+
             <div id="bottom-bar">
                 <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
                 <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
@@ -74,13 +95,13 @@
                 </div>
                 <div class="messages">
                     <ul id="message-list">
-                        
+
                     </ul>
                 </div>
                 <div class="message-input">
                     <form id="chat-form">
                         <div class="wrap">
-                            <input type="hidden" value="0" id="current-friend-id"/>
+                            <input type="hidden" value="0" id="current-friend-id" />
                             <input type="text" placeholder="Write your message..." id="message" />
                             <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
                             <button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
