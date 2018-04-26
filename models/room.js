@@ -9,8 +9,10 @@ const RoomSchema = mongoose.Schema({
         required: [true, "Please Enter a Rooms Name"]
     },
     users : {
-        type : [mongoose.Schema.Types.ObjectId],
-        ref : 'user'
+        type : [{
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'user'
+        }]
     }
 });
 

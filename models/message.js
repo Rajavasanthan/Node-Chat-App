@@ -18,6 +18,12 @@ const MessageSchema = mongoose.Schema({
     recivedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
+    },
+    messageType : {
+        type : String //room,personal
+    },
+    roomName : {
+        type : String
     }
 });
 

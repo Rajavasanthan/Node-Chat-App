@@ -40,15 +40,15 @@
             </div>
 
             <ul class="nav nav-tabs">
-                <li class="active" style="width: 50%;text-align: center;">
+                <li style="width: 50%;text-align: center;">
                     <a data-toggle="tab" style="border-radius: 0;" href="#home">Contacts</a>
                 </li>
-                <li style="width: 50%;text-align: center;">
+                <li class="active" style="width: 50%;text-align: center;">
                     <a data-toggle="tab" style="border-radius: 0;" href="#menu1">Peoples</a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div id="home" class="tab-pane fade in active">
+                <div id="home" class="tab-pane fade">
                     <div id="contacts">
                         <ul id="friends-search">
 
@@ -64,10 +64,23 @@
                         </ul>
                     </div>
                 </div>
-                <div id="menu1" class="tab-pane fade">
-                    <h3>Menu 1</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
+                <div id="menu1" class="tab-pane fade in active">
+                    <div class="row" style="padding: 8px;border-bottom: 1px solid grey;">
+                        <div class="col-lg-6">
+                            <h1>Current Room Name</h1>
+                        </div>
+                        <div class="col-lg-6">
+                            <button class="btn btn-xs btn-primary pull-right" data-toggle="modal" data-target="#myModal">Change Room</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" id="contacts">
+                            <ul id="room-users-list">
+
+
+                        </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -109,16 +122,90 @@
                     </form>
                 </div>
             </div>
+            <div id="room-chat-screen" class="room-messages">
+                <div class="contact-profile">
+                    <img src="" id="friend-image" alt="" />
+                    <p id="friend-name"></p>
+                    <div class="social-media">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </div>
+                    Room
+                </div>
+                <div class="room-messages">
+                    <ul id="room-message-list">
+
+                    </ul>
+                </div>
+                <div class="message-input">
+                    <form id="chat-form">
+                        <div class="wrap">
+                             <input type="hidden" value="0" id="current-room-name" /> 
+                            <input type="text" placeholder="Write your message..." id="room-message" />
+                            <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+                            <button class="room-message-submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
 
                 <div class="modal-body">
-                    Send Request?
+                    <h1>Rooms</h1>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item" onclick="joinRoom('world')">World</a>
+                        <a href="#" class="list-group-item" onclick="joinRoom('india')">India</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a href="#" class="list-group-item disabled">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a href="#" class="list-group-item disabled">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a href="#" class="list-group-item disabled">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a href="#" class="list-group-item disabled">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a href="#" class="list-group-item disabled">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a href="#" class="list-group-item disabled">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a href="#" class="list-group-item disabled">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                        <a href="#" class="list-group-item disabled">Cras justo odio</a>
+                        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                        <a href="#" class="list-group-item">Morbi leo risus</a>
+                        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                        <a href="#" class="list-group-item">Vestibulum at eros</a>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-xs btn-default" data-dismiss="modal">Close</button>
