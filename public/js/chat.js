@@ -100,7 +100,16 @@ $(document).ready(function () {
     })
 
     socket.on('userJoinedRoomUpdateUserList', function (userList) {
-        console.log(userList);
+        $("#room-users-list li:eq(0)").after(`<li class='contact' id='user-${userList._id}' onclick='getMessages("${userList._id}","${userList.fullName}","${userList.userImage}")'>
+                <div class='wrap'>
+                    <span class='contact-status ${userList.status}'></span>
+                    <img src='${userList.userImage}' alt='' />
+                    <div class='meta'>
+                        <p class='name'>${userList.fullName}</p>
+                        <p class='preview'>Lets Chat</p>
+                    </div>
+                </div>
+                </li>`);
     })
     socket.on('userJoinedMessageForRoomMembers', function (userJoinedMessage) {
         displayRoomMessage(userJoinedMessage);
@@ -140,7 +149,8 @@ $(document).ready(function () {
         displayRoomMessage(userLeftMessage);
     })
     socket.on('userLeftRoomUpdateUserList', function (userList) {
-        console.log(userList);
+        console.log("#user-" + userList._id);
+        $("#room-users-list > #user-" + userList._id).remove();
     })
 
     $("#search-filter").keyup($.debounce(500, function (e) {
@@ -411,5 +421,6 @@ function joinRoom(roomId) {
         roomName: roomId
     });
     $('#myModal').modal('hide');
+    openRoomChat(roomId);
     $('#current-room-name').val(roomId);
 }

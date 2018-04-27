@@ -496,7 +496,7 @@ width: 100%;
   }
 }
 #frame .content {
-  float: right;
+  float: left;
   width: 60%;
   height: 100%;
   overflow: hidden;
@@ -510,7 +510,7 @@ width: 100%;
 }
 @media screen and (min-width: 900px) {
   #frame .content {
-    width: calc(100% - 340px);
+    width: calc(80% - 340px);
   }
 }
 #frame .content .contact-profile {

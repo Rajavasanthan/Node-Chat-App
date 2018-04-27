@@ -80,7 +80,6 @@ io.on('connection', (socket) => {
 
         newMessage.save()
             .then((savedMessage) => {
-                console.log(savedMessage);
                 return Message.populate(savedMessage,
                     [{
                         path: 'sentBy',
@@ -101,7 +100,6 @@ io.on('connection', (socket) => {
                 })
             })
             .then((populatedMessage) => {
-                console.log(populatedMessage);
                 return User.findById(message.to)
                     .populate('currentFriend', { _id: 1, socketId: 1 })
                     .then((toUser) => {
@@ -109,7 +107,6 @@ io.on('connection', (socket) => {
                     })
             })
             .then((toUserWithPopulatedMessage) => {
-                console.log(toUserWithPopulatedMessage.toUser);
                 if (toUserWithPopulatedMessage.toUser.currentFriend) {
                     if (toUserWithPopulatedMessage.toUser.currentFriend._id == socket.handshake.session.passport.user) {
                         // console.log('Send Message');
@@ -136,21 +133,20 @@ io.on('connection', (socket) => {
         messageData.save()
             .then((savedMessage) => {
                 User.findById(socket.handshake.session.passport.user).then((user) => {
-                    console.log(socket);
                     socket.to(message.roomName).emit('newMessageInRoom', {
                         message: message.content,
                         roomName: message.roomName,
-                        sentBy : {
-                            fullName : user.fullName,
-                            userImage : user.userImage
+                        sentBy: {
+                            fullName: user.fullName,
+                            userImage: user.userImage
                         }
                     });
                     callback({
                         message: message.content,
                         roomName: message.roomName,
-                        sentBy : {
-                            fullName : user.fullName,
-                            userImage : user.userImage
+                        sentBy: {
+                            fullName: user.fullName,
+                            userImage: user.userImage
                         }
                     });
                 });
@@ -279,7 +275,9 @@ io.on('connection', (socket) => {
                             messageType: 'left'
                         });
                         // Update the User list for all other users in that room
-                        socket.to(roomAndUser.user.room.name).emit('userLeftRoomUpdateUserList', roomAndUser.user.fullName + ' Left Update User List');
+                        socket.to(roomAndUser.user.room.name).emit('userLeftRoomUpdateUserList', {
+                            _id : socket.handshake.session.passport.user
+                        });
 
                         // Remove this userId from the usersArray in Rooms collection
                         Room.findByIdAndUpdate(roomAndUser.user.room.id, { $pull: { users: socket.handshake.session.passport.user } }).then(() => {
@@ -314,20 +312,27 @@ io.on('connection', (socket) => {
                                     roomName: roomAndUser.room.roomName,
                                     roomDisplayName: roomAndUser.room.roomDisplayName
                                 });
-                            });
-                        //Set his roomId field to the requested room
-                        User.findByIdAndUpdate(roomAndUser.user._id, { $set: { room: { name: room.roomName, id: roomAndUser.room._id } } }).then(() => {
-                            //Inform all Room mates that this user has joined
-                            socket.to(roomAndUser.room.roomName).emit('userJoinedMessageForRoomMembers', {
-                                userName: roomAndUser.user.fullName,
-                                messageType: 'join'
-                            });
+                                //Set his roomId field to the requested room
+                                User.findByIdAndUpdate(roomAndUser.user._id, { $set: { room: { name: room.roomName, id: roomAndUser.room._id } } })
+                                    .then(() => {
+                                        //Inform all Room mates that this user has joined
+                                        socket.to(roomAndUser.room.roomName).emit('userJoinedMessageForRoomMembers', {
+                                            userName: roomAndUser.user.fullName,
+                                            messageType: 'join'
+                                        });
 
-                            //Populate all the user list in this room to connected user
-                            console.log('Emited to ' + roomAndUser.room.roomName);
-                            socket.to(roomAndUser.room.roomName).emit('userJoinedRoomUpdateUserList', roomAndUser.user.fullName + " Joined Update User List");
-                            // res.status(200).json({ message: "Joined" });
-                        });
+                                        //Populate all the user list in this room to connected user
+                                        console.log('---------');
+                                        console.log(roomAndUser.user);
+                                        socket.to(roomAndUser.room.roomName).emit('userJoinedRoomUpdateUserList', {
+                                            _id : socket.handshake.session.passport.user,
+                                            fullName: roomAndUser.user.fullName,
+                                            status : roomAndUser.user.status,
+                                            userImage : roomAndUser.user.userImage
+                                        });
+                                        // res.status(200).json({ message: "Joined" });
+                                    });
+                            });
                     });
                     // roomAndUser.room.users.push(req.user._id);
 
@@ -390,11 +395,11 @@ io.on('connection', (socket) => {
                 }
             ]
         })
-        .populate('sentBy',{_id:1,fullName:1,userImage:1})
-        .then((roomMessages) => {
-            console.log(roomMessages);
-            res.status(200).json(roomMessages);
-        })
+            .populate('sentBy', { _id: 1, fullName: 1, userImage: 1 })
+            .then((roomMessages) => {
+                console.log(roomMessages);
+                res.status(200).json(roomMessages);
+            })
     });
 
     //
@@ -437,6 +442,14 @@ io.on('connection', (socket) => {
                 console.log(user);
                 console.log(socket.handshake.session.passport.user);
                 Room.findByIdAndUpdate(user.room.id, { $pull: { users: socket.handshake.session.passport.user } }).then(() => {
+                    socket.to(user.room.name).emit('userLeftMessageForRoomMembers', {
+                            userName: user.fullName,
+                            messageType: 'left'
+                        });
+                        // Update the User list for all other users in that room
+                        socket.to(user.room.name).emit('userLeftRoomUpdateUserList', {
+                            _id : socket.handshake.session.passport.user
+                        });
                     return;
                 });
             })
